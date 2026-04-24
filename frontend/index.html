@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearFix | Facility Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+        <div class="glass-card login-box">
+            <h1>Halo, <span>ClearFix</span></h1>
+            <p>Masukkan identitas Anda (Contoh: Guru Budi)</p>
+            <input type="text" id="login-nama" placeholder="Ketik nama Anda...">
+            <button id="btn-login" class="btn-primary">Masuk</button>
+            <div id="login-error" class="error-msg"></div>
+        </div>
+    </div>
+
+    <!-- Feed Screen -->
+    <div id="main-screen" class="screen">
+        <header class="glass-header">
+            <h2>ClearFix <span>Beranda</span></h2>
+            <div class="user-info">
+                <span id="display-nama"></span>
+                <button id="btn-logout" class="btn-secondary">Keluar</button>
+            </div>
+        </header>
+
+        <main class="container">
+            <div class="action-bar">
+                <h3>Laporan (7 Hari Terakhir)</h3>
+                <button id="btn-show-form" class="btn-action">+ Buat Laporan</button>
+            </div>
+
+            <div id="loading" class="loader">Tunggu Sebentar...</div>
+            
+            <!-- Views (Switched by JS) -->
+            <div id="staff-view" class="view active">
+                <div id="feed-container" class="feed"></div>
+            </div>
+
+            <div id="admin-view" class="view">
+                <div class="view-header">
+                    <h3>Panel Administrasi</h3>
+                    <button id="btn-add-user" class="btn-action">+ User Baru</button>
+                </div>
+                <div id="user-list" class="user-grid"></div>
+            </div>
+
+            <div id="frontliner-view" class="view">
+                <div class="view-header">
+                    <h3>Daftar Tugas Masuk</h3>
+                </div>
+                <div id="task-list" class="feed"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create Report Modal -->
+    <div id="form-modal" class="modal">
+        <div class="glass-card form-box">
+            <h2>Buat Laporan Masalah</h2>
+            <form id="report-form">
+                <div class="input-group">
+                    <label>Judul Laporan</label>
+                    <input type="text" id="form-judul" required placeholder="Contoh: Lampu redup">
+                </div>
+                <div class="input-group">
+                    <label>Penjelasan Tambahan</label>
+                    <textarea id="form-deskripsi" rows="3" placeholder="Rincian / catatan lainnya."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>Kategori Masalah</label>
+                    <select id="form-kategori" required>
+                        <option value="Fasilitas">Fasilitas</option>
+                        <option value="Keamanan">Keamanan</option>
+                        <option value="Kebersihan">Kebersihan</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Unggah Gambar Bukti (Max 3MB)</label>
+                    <input type="file" id="form-foto" accept="image/*">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="btn-cancel" class="btn-tertiary">Batal</button>
+                    <button type="submit" id="btn-submit" class="btn-primary">Publikasikan Laporan</button>
+                </div>
+                <div id="form-msg" class="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Modal (Admin) -->
+    <div id="user-modal" class="modal">
+        <div class="glass-card form-box">
+            <h2 id="user-modal-title">Manajemen User</h2>
+            <form id="user-form">
+                <input type="hidden" id="user-id">
+                <div class="input-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="user-nama" required>
+                </div>
+                <div class="input-group">
+                    <label>Role</label>
+                    <select id="user-role" required>
+                        <option value="staff">Staff / Guru</option>
+                        <option value="frontliner">Frontliner (OB/Satpam)</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>ID Telegram (Opsional)</label>
+                    <input type="text" id="user-telegram" placeholder="Punya bot? Isi ID nya">
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="btn-user-cancel" class="btn-tertiary">Batal</button>
+                    <button type="submit" class="btn-primary">Simpan User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Proof Modal (Frontliner) -->
+    <div id="proof-modal" class="modal">
+        <div class="glass-card form-box">
+            <h2>Selesaikan Tugas</h2>
+            <form id="proof-form">
+                <input type="hidden" id="proof-report-id">
+                <div class="input-group">
+                    <label>Unggah Foto Bukti Kerja</label>
+                    <input type="file" id="proof-foto" accept="image/*" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="btn-proof-cancel" class="btn-tertiary">Batal</button>
+                    <button type="submit" class="btn-primary">Konfirmasi Selesai</button>
+                </div>
+                <div id="proof-msg"></div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
